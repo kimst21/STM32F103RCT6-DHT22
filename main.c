@@ -86,9 +86,9 @@ uint8_t DHT22_Start (void)
   GPIO_InitStructPrivate.Speed = GPIO_SPEED_FREQ_LOW;
   GPIO_InitStructPrivate.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(DHT22_PORT, &GPIO_InitStructPrivate); // set the pin as output
-  HAL_GPIO_WritePin (DHT22_PORT, DHT22_PIN, 0);   // pull the pin low
-  microDelay (1300);   // wait for 1300us
-  HAL_GPIO_WritePin (DHT22_PORT, DHT22_PIN, 1);   // pull the pin high
+  HAL_GPIO_WritePin (DHT22_PORT, DHT22_PIN, 0);       // pull the pin low
+  microDelay (1300);                                  // wait for 1300us
+  HAL_GPIO_WritePin (DHT22_PORT, DHT22_PIN, 1);       // pull the pin high
   microDelay (30);   // wait for 30us
   GPIO_InitStructPrivate.Mode = GPIO_MODE_INPUT;
   GPIO_InitStructPrivate.Pull = GPIO_PULLUP;
@@ -119,7 +119,7 @@ uint8_t DHT22_Read (void)
     {  // wait for the pin to go high
       cMillis = HAL_GetTick();
     }
-    microDelay (40);   // wait for 40 us
+    microDelay (40);                                   // wait for 40 us
     if (!(HAL_GPIO_ReadPin (DHT22_PORT, DHT22_PIN)))   // if the pin is low
       b&= ~(1<<(7-a));
     else
@@ -178,11 +178,11 @@ int main(void)
     {
       if(DHT22_Start())
       {
-        RH1 = DHT22_Read(); // First 8bits of humidity
-        RH2 = DHT22_Read(); // Second 8bits of Relative humidity
-        TC1 = DHT22_Read(); // First 8bits of Celsius
-        TC2 = DHT22_Read(); // Second 8bits of Celsius
-        SUM = DHT22_Read(); // Check sum
+        RH1 = DHT22_Read();    // First 8bits of humidity
+        RH2 = DHT22_Read();    // Second 8bits of Relative humidity
+        TC1 = DHT22_Read();    // First 8bits of Celsius
+        TC2 = DHT22_Read();    // Second 8bits of Celsius
+        SUM = DHT22_Read();    // Check sum
         CHECK = RH1 + RH2 + TC1 + TC2;
         if (CHECK == SUM)
         {
@@ -197,20 +197,20 @@ int main(void)
           tFahrenheit = tCelsius * 9/5 + 32;
           RH = (float) ((RH1<<8)|RH2)/10;
           SSD1306_GotoXY (0, 0);
-          RHI = RH;  // Relative humidity integral
-          RHD = RH*10-RHI*10; // Relative humidity decimal
+          RHI = RH;            // Relative humidity integral
+          RHD = RH*10-RHI*10;  // Relative humidity decimal
           sprintf(strCopy,"%d.%d %%  ", RHI, RHD);
           SSD1306_Puts (strCopy, &Font_11x18, 1);
           SSD1306_GotoXY (0, 20);
           if (tCelsius < 0)
           {
-            TCI = tCelsius *(-1);  // Celsius integral
-            TCD = tCelsius*(-10)-TCI*10; // Celsius decimal
+            TCI = tCelsius *(-1);         // Celsius integral
+            TCD = tCelsius*(-10)-TCI*10;  // Celsius decimal
             sprintf(strCopy,"-%d.%d C   ", TCI, TCD);
           }
           else
           {
-            TCI = tCelsius;  // Celsius integral
+            TCI = tCelsius;           // Celsius integral
             TCD = tCelsius*10-TCI*10; // Celsius decimal
             sprintf(strCopy,"%d.%d C   ", TCI, TCD);
           }
@@ -218,13 +218,13 @@ int main(void)
           SSD1306_GotoXY (0, 40);
           if(tFahrenheit < 0)
           {
-            TFI = tFahrenheit*(-1);  // Fahrenheit integral
+            TFI = tFahrenheit*(-1);         // Fahrenheit integral
             TFD = tFahrenheit*(-10)-TFI*10; // Fahrenheit decimal
             sprintf(strCopy,"-%d.%d F   ", TFI, TFD);
           }
           else
           {
-            TFI = tFahrenheit;  // Fahrenheit integral
+            TFI = tFahrenheit;           // Fahrenheit integral
             TFD = tFahrenheit*10-TFI*10; // Fahrenheit decimal
             sprintf(strCopy,"%d.%d F   ", TFI, TFD);
           }
